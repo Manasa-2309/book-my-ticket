@@ -10,6 +10,7 @@ import com.jsp.book.dto.LoginDto;
 import com.jsp.book.dto.MovieDto;
 import com.jsp.book.dto.PasswordDto;
 import com.jsp.book.dto.ScreenDto;
+import com.jsp.book.dto.SeatLayoutForm;
 import com.jsp.book.dto.TheaterDto;
 import com.jsp.book.dto.UserDto;
 
@@ -56,18 +57,23 @@ public interface UserService {
 	String addScreen(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map, ScreenDto screenDto);
 
 	String addScreen(ScreenDto screenDto,BindingResult result, HttpSession session, RedirectAttributes attributes);
+
 	String deleteScreen(Long id, HttpSession session, RedirectAttributes attributes);
 
 	String editScreen(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
 
 	String updateScreen(ScreenDto screenDto, Long id, BindingResult result, HttpSession session,
 			RedirectAttributes attributes, ModelMap map);
+
 	String manageSeats(Long id, HttpSession session, ModelMap map, RedirectAttributes attributes);
 
 	String addSeats(Long id, HttpSession session, ModelMap map, RedirectAttributes attributes);
+
 	String manageMovies(HttpSession session, RedirectAttributes attributes, ModelMap map);
 
 	String loadAddMovie(MovieDto movieDto, RedirectAttributes attributes, HttpSession session);
 
 	String addMovie(MovieDto movieDto, BindingResult result, RedirectAttributes attributes, HttpSession session);
+
+	String saveSeats(Long id, SeatLayoutForm seatLayoutForm, HttpSession session, RedirectAttributes attributes);
 }

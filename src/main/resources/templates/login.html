@@ -1,254 +1,410 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Login - BookMyTicket</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login - BookMyTicket</title>
 
-<!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+	<!-- Favicon -->
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-	rel="stylesheet">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-	font-family: "Poppins", sans-serif;
-	background:
-		url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1500&q=80')
-		center/cover no-repeat fixed;
-}
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* Dark overlay */
-body::before {
-	content: "";
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.65);
-	z-index: -1;
-}
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-/* NAVBAR */
-.navbar {
-	background: rgba(0, 0, 0, 0.85) !important;
-	backdrop-filter: blur(6px);
-}
+		html {
+			scroll-behavior: smooth;
+		}
 
-.navbar-brand {
-	font-weight: 600;
-	font-size: 1.6rem;
-}
+		body {
+			font-family: 'Poppins', sans-serif;
+			background: #f8f9fa;
+			color: #2c3e50;
+			overflow-x: hidden;
+			min-height: 100vh;
+		}
 
-/* LOGIN BOX */
-.login-box {
-	width: 100%;
-	max-width: 420px;
-	margin-top: 80px;
-	padding: 38px;
-	background: rgba(255, 255, 255, 0.12);
-	border-radius: 15px;
-	backdrop-filter: blur(12px);
-	border: 1px solid rgba(255, 255, 255, 0.25);
-	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-	color: #fff;
-}
+		/* ========== NAVBAR ========== */
+		.navbar {
+			background: #fff !important;
+			padding: 1rem 2rem;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+			border-bottom: 1px solid #e8e8e8;
+		}
 
-.login-box h3 {
-	color: #fff;
-	font-weight: 600;
-}
+		.navbar-brand {
+			font-weight: 800;
+			font-size: 1.5rem;
+			letter-spacing: 0.5px;
+			color: #e74c3c !important;
+		}
 
-/* INPUTS */
-.form-control {
-	background: rgba(255, 255, 255, 0.18);
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	color: #fff;
-}
+		.nav-link {
+			color: #555 !important;
+			font-weight: 500;
+			transition: color 0.3s ease;
+		}
 
-.form-control::placeholder {
-	color: rgba(255, 255, 255, 0.6);
-}
+		.nav-link:hover {
+			color: #e74c3c !important;
+		}
 
-.form-control:focus {
-	background: rgba(255, 255, 255, 0.25);
-	border-color: #ff884d;
-	box-shadow: 0 0 0 0.15rem rgba(255, 136, 77, 0.35);
-	color: #fff;
-}
+		/* ========== LOGIN CONTAINER ========== */
+		.login-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: calc(100vh - 80px);
+			padding: 40px 20px;
+		}
 
-/* BUTTON */
-.btn-primary {
-	background: linear-gradient(45deg, #ff4d4d, #ff884d);
-	border: none;
-}
+		.login-box {
+			width: 100%;
+			max-width: 420px;
+			padding: 40px;
+			background: #fff;
+			border-radius: 12px;
+			border: 1px solid #e8e8e8;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+			color: #2c3e50;
+		}
 
-.btn-primary:hover {
-	background: linear-gradient(45deg, #ff3333, #ff6600);
-}
+		.login-box h3 {
+			color: #1a252f;
+			font-weight: 800;
+			margin-bottom: 1.5rem;
+			font-size: 1.8rem;
+		}
 
-/* LINKS */
-a {
-	color: #ff884d;
-	text-decoration: none;
-}
+		/* ========== FORM STYLES ========== */
+		.form-label {
+			color: #2c3e50;
+			font-weight: 600;
+			margin-bottom: 0.6rem;
+			font-size: 0.95rem;
+		}
 
-a:hover {
-	color: #ff4d4d;
-}
+		.form-control {
+			background: #f8f9fa;
+			border: 1px solid #e8e8e8;
+			color: #2c3e50;
+			border-radius: 8px;
+			padding: 0.75rem 1rem;
+			font-weight: 500;
+			transition: all 0.3s ease;
+		}
 
-/* Toastify style */
-.toastify-container {
-	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	z-index: 99999;
-}
+		.form-control::placeholder {
+			color: #999;
+		}
 
-.toastify {
-	min-width: 280px;
-	border-radius: 8px;
-	padding: 14px 18px;
-	color: white;
-	font-weight: 500;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-	opacity: 0;
-	transform: translateX(120%);
-	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
-	position: relative;
-	overflow: hidden;
-}
+		.form-control:focus {
+			background: #fff;
+			border-color: #e74c3c;
+			box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+			color: #2c3e50;
+		}
 
-.toastify.success {
-	background: #2ecc71;
-}
+		/* ========== ERROR TEXT ========== */
+		.error-text {
+			font-size: 0.85rem;
+			color: #e74c3c;
+			font-weight: 600;
+			margin-top: 0.3rem;
+			display: block;
+		}
 
-.toastify.error {
-	background: #e74c3c;
-}
+		/* ========== CHECKBOX ========== */
+		.form-check-label {
+			color: #555;
+			font-weight: 500;
+			font-size: 0.95rem;
+		}
 
-@keyframes slideIn {to { opacity:1;
-	transform: translateX(0);
-}
+		.form-check-input {
+			border-color: #ddd;
+			accent-color: #e74c3c;
+		}
 
-}
-@keyframes fadeOut {to { opacity:0;
-	transform: translateX(120%);
-}
+		.form-check-input:focus {
+			border-color: #e74c3c;
+			box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
+		}
 
-}
-.toastify::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	height: 4px;
-	background: rgba(255, 255, 255, 0.7);
-	animation: progressBar 3s linear forwards;
-}
+		/* ========== BUTTONS ========== */
+		.btn {
+			font-weight: 600;
+			border-radius: 8px;
+			transition: all 0.3s ease;
+			text-transform: uppercase;
+			letter-spacing: 0.3px;
+			font-size: 0.85rem;
+			padding: 0.75rem 1.8rem;
+			border: none;
+		}
 
-@keyframes progressBar {from { width:100%;
-	
-}
+		.btn-primary {
+			background: #e74c3c;
+			color: #fff;
+			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
+		}
 
-to {
-	width: 0%;
-}
-}
-</style>
+		.btn-primary:hover {
+			background: #c0392b;
+			box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+			transform: translateY(-2px);
+			color: #fff;
+		}
+
+		.btn-outline-light {
+			color: #e74c3c;
+			border: 2px solid #e74c3c;
+			background: transparent;
+			font-weight: 600;
+		}
+
+		.btn-outline-light:hover {
+			background: #e74c3c;
+			color: #fff;
+			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
+		}
+
+		/* ========== LINKS ========== */
+		a {
+			color: #e74c3c;
+			text-decoration: none;
+			font-weight: 600;
+			transition: color 0.3s ease;
+		}
+
+		a:hover {
+			color: #c0392b;
+		}
+
+		/* ========== TOAST NOTIFICATIONS ========== */
+		.toastify-container {
+			position: fixed;
+			top: 80px;
+			right: 20px;
+			z-index: 999;
+			pointer-events: none;
+		}
+
+		.toastify {
+			min-width: 300px;
+			max-width: 400px;
+			border-radius: 8px;
+			padding: 14px 18px;
+			color: white;
+			font-weight: 500;
+			font-size: 0.95rem;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+			margin-bottom: 10px;
+			pointer-events: auto;
+			animation: toastSlideIn 0.35s ease forwards;
+			border: none;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.toastify.success {
+			background: #27ae60;
+		}
+
+		.toastify.error {
+			background: #e74c3c;
+		}
+
+		.toastify span {
+			flex: 1;
+			line-height: 1.4;
+		}
+
+		.toastify-close {
+			width: 24px;
+			height: 24px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.2);
+			border: none;
+			color: white;
+			font-size: 1rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.25s ease;
+			flex-shrink: 0;
+			font-weight: 700;
+		}
+
+		.toastify-close:hover {
+			background: rgba(255, 255, 255, 0.35);
+		}
+
+		@keyframes toastSlideIn {
+			from {
+				opacity: 0;
+				transform: translateX(450px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		@keyframes toastSlideOut {
+			from {
+				opacity: 1;
+				transform: translateX(0);
+			}
+			to {
+				opacity: 0;
+				transform: translateX(450px);
+			}
+		}
+
+		/* ========== RESPONSIVE DESIGN ========== */
+		@media (max-width: 768px) {
+			.navbar {
+				padding: 0.75rem 1.5rem;
+			}
+
+			.navbar-brand {
+				font-size: 1.3rem;
+			}
+
+			.login-box {
+				padding: 30px;
+			}
+
+			.login-box h3 {
+				font-size: 1.5rem;
+				margin-bottom: 1.2rem;
+			}
+		}
+	</style>
 </head>
 
 <body>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-white">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/register">Register</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
-	<!-- TOASTIFY TOASTS -->
+	<!-- TOASTIFY NOTIFICATIONS -->
 	<div class="toastify-container">
 		<div th:if="${pass}" class="toastify success">
 			<span th:text="${pass}"></span>
 		</div>
-
 		<div th:if="${fail}" class="toastify error">
 			<span th:text="${fail}"></span>
 		</div>
 	</div>
 
-
-	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark px-4 shadow-sm">
-		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
-
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-			data-bs-target="#navMenu">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
-
-			<div th:if="${session.user == null}">
-				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
-					href="/register" class="btn btn-warning">Register</a>
-			</div>
-
-			<div th:if="${session.user != null}"
-				class="d-flex align-items-center">
-				<span class="text-white me-3"
-					th:text="'Hello, ' + ${session.user.name}"></span> <a
-					href="/logout" class="btn btn-danger">Logout</a>
-			</div>
-
-		</div>
-	</nav>
-
-
-	<!-- LOGIN FORM BOX -->
-	<div class="container d-flex justify-content-center">
+	<!-- LOGIN CONTAINER -->
+	<div class="login-container">
 		<div class="login-box">
+			<h3>Welcome Back</h3>
 
-			<h3 class="text-center mb-4 fw-bold">Welcome Back</h3>
+			<!-- Login Form -->
+			<form action="/login" method="post" >
 
-			<form action="/login" method="post">
+				<div class="mb-3">
+					<label for="email" class="form-label">Email Address</label>
+					<input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+					</div>
 
-				<div class="mb-3 text-start">
-					<label class="form-label">Email</label> <input type="email"
-						name="email" class="form-control" placeholder="Enter email"
-						required>
+				<div class="mb-3">
+					<label for="password" class="form-label">Password</label>
+					<input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
 				</div>
 
-				<div class="mb-3 text-start">
-					<label class="form-label">Password</label> <input type="password"
-						name="password" class="form-control" placeholder="Enter password"
-						required>
+				<div class="mb-3 form-check">
+					<input type="checkbox" id="remember" class="form-check-input">
+					<label for="remember" class="form-check-label">Remember me</label>
 				</div>
 
-				<button class="btn btn-primary w-100 py-2 mt-2">Login</button>
+				<button type="submit" class="btn btn-primary w-100">Sign In</button>
 
-				<div class="text-center mt-3">
-					<small>Don't have an account? <a href="/register">Register</a>
-					</small> <br> <a href="/forgot-password" class="mt-2 d-inline-block">Forgot
-						Password?</a>
+				<div class="text-center mt-4" style="color: #666; font-size: 0.9rem;">
+					<a href="/forgot-password">Forgot Password?</a>
+					<br>
+					Don't have an account? <a href="/register">Register here</a>
 				</div>
-
 			</form>
-
 		</div>
 	</div>
 
-
 	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.toastify').forEach(t => {
-        setTimeout(() => t.remove(), 3500);
-    });
-});
-</script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const toasts = document.querySelectorAll('.toastify');
+
+			toasts.forEach(toastElement => {
+				// Create close button
+				const closeBtn = document.createElement('button');
+				closeBtn.className = 'toastify-close';
+				closeBtn.innerHTML = '×';
+				closeBtn.type = 'button';
+
+				// Insert close button before span
+				const spanElement = toastElement.querySelector('span');
+				if (spanElement) {
+					toastElement.insertBefore(closeBtn, spanElement.nextSibling);
+				}
+
+				// Close button click handler
+				closeBtn.addEventListener('click', () => {
+					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+					setTimeout(() => toastElement.remove(), 400);
+				});
+
+				// Auto remove after 3.5 seconds
+				const timeout = setTimeout(() => {
+					if (document.body.contains(toastElement)) {
+						toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+						setTimeout(() => toastElement.remove(), 400);
+					}
+				}, 3500);
+
+				// Clear timeout if closed manually
+				closeBtn.addEventListener('click', () => clearTimeout(timeout));
+			});
+		});
+	</script>
 
 </body>
+
 </html>
